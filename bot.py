@@ -364,7 +364,6 @@ async def recipes(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(recipes_text, parse_mode='Markdown')
     return SELECTING_ACTION
 
-# Manejar mensajes de texto
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     
@@ -391,9 +390,19 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == '👋 Despedida':
         return await goodbye(update, context)
     else:
+        # Usar el mismo mensaje de bienvenida que en /start
+        user = update.message.from_user
+        welcome_text = f"""
+¡Hola {user.first_name}! 👋🌶️
+
+*Bienvenido a Mole Doña María* - ¡El auténtico sabor de México! 
+
+¿En qué puedo ayudarte hoy? Selecciona una opción:
+        """
         await update.message.reply_text(
-            "¡Hola! Selecciona una opción del menú:",
-            reply_markup=main_keyboard()
+            welcome_text,
+            reply_markup=main_keyboard(),
+            parse_mode='Markdown'
         )
         return SELECTING_ACTION
 
@@ -518,3 +527,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
